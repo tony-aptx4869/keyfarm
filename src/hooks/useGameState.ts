@@ -5,12 +5,12 @@ import type { GameState, FarmStage, FarmCell, DailyEntry, AnimalInstance } from 
 import {
   STAGE_THRESHOLDS,
   NEXT_STAGE,
-  FALLOW_HARVEST_LIMIT,
-  FALLOW_WINDOW_MS,
-  FALLOW_DURATION_MS,
-  OVERWORK_PRESS_LIMIT,
-  OVERWORK_WINDOW_MS,
-  OVERWORK_DURATION_MS,
+  // FALLOW_HARVEST_LIMIT,
+  // FALLOW_WINDOW_MS,
+  // FALLOW_DURATION_MS,
+  // OVERWORK_PRESS_LIMIT,
+  // OVERWORK_WINDOW_MS,
+  // OVERWORK_DURATION_MS,
   PEST_INTERVAL_MIN_MS,
   PEST_INTERVAL_MAX_MS,
   PEST_EXPIRE_MS,
@@ -173,7 +173,7 @@ export function useGameState() {
   const stateRef = useRef(gameState);
   stateRef.current = gameState;
   const loadedRef = useRef(false);
-  const pressTracker = useRef<Map<string, number[]>>(new Map());
+  // const pressTracker = useRef<Map<string, number[]>>(new Map());
   const animRef = useRef<AnimationState>({
     recentHits: new Map(),
     recentHarvests: new Map(),
@@ -243,38 +243,38 @@ export function useGameState() {
         }
 
         // --- Overworked detection ---
-        const now = Date.now();
-        const pressTimestamps = pressTracker.current.get(keyCode) || [];
-        const recent = [...pressTimestamps, now].filter(t => now - t < OVERWORK_WINDOW_MS);
-        pressTracker.current.set(keyCode, recent);
+        // const now = Date.now();
+        // const pressTimestamps = pressTracker.current.get(keyCode) || [];
+        // const recent = [...pressTimestamps, now].filter(t => now - t < OVERWORK_WINDOW_MS);
+        // pressTracker.current.set(keyCode, recent);
 
-        if (
-          recent.length >= OVERWORK_PRESS_LIMIT &&
-          cell.stage !== 'overworked' &&
-          cell.stage !== 'fallow'
-        ) {
-          pressTracker.current.set(keyCode, []);
-          return {
-            ...prev,
-            totalKeyPresses: newTotalKeyPresses,
-            dailyStats: newDailyStats,
-            cells: {
-              ...prev.cells,
-              [keyCode]: {
-                ...cell,
-                stage: 'overworked' as FarmStage,
-                overworkedUntil: now + OVERWORK_DURATION_MS,
-                preOverworkedStage: cell.stage,
-                preOverworkedHitCount: cell.hitCount,
-              },
-            },
-          };
-        }
+        // if (
+        //   recent.length >= OVERWORK_PRESS_LIMIT &&
+        //   cell.stage !== 'overworked' &&
+        //   cell.stage !== 'fallow'
+        // ) {
+        //   pressTracker.current.set(keyCode, []);
+        //   return {
+        //     ...prev,
+        //     totalKeyPresses: newTotalKeyPresses,
+        //     dailyStats: newDailyStats,
+        //     cells: {
+        //       ...prev.cells,
+        //       [keyCode]: {
+        //         ...cell,
+        //         stage: 'overworked' as FarmStage,
+        //         overworkedUntil: now + OVERWORK_DURATION_MS,
+        //         preOverworkedStage: cell.stage,
+        //         preOverworkedHitCount: cell.hitCount,
+        //       },
+        //     },
+        //   };
+        // }
 
         // Skip growth for overworked or fallow cells
-        if (cell.stage === 'overworked' || cell.stage === 'fallow') {
-          return { ...prev, totalKeyPresses: newTotalKeyPresses, dailyStats: newDailyStats };
-        }
+        // if (cell.stage === 'overworked' || cell.stage === 'fallow') {
+        //   return { ...prev, totalKeyPresses: newTotalKeyPresses, dailyStats: newDailyStats };
+        // }
 
         // Skip growth for pest-infested cells
         if (cell.hasPest) {
@@ -543,15 +543,15 @@ export function useGameState() {
 
       const now = Date.now();
       const timestamps = [...(c.harvestTimestamps || []), now]
-        .filter(t => now - t < FALLOW_WINDOW_MS);
+        // .filter(t => now - t < FALLOW_WINDOW_MS);
 
       let newStage: FarmStage = 'empty';
       let fallowUntil: number | null = null;
 
-      if (timestamps.length >= FALLOW_HARVEST_LIMIT) {
-        newStage = 'fallow';
-        fallowUntil = now + FALLOW_DURATION_MS;
-      }
+      // if (timestamps.length >= FALLOW_HARVEST_LIMIT) {
+      //   newStage = 'fallow';
+      //   fallowUntil = now + FALLOW_DURATION_MS;
+      // }
 
       const newHarvestsByCrop = {
         ...prev.harvestsByCrop,

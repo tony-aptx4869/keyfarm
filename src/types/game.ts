@@ -98,11 +98,15 @@ export interface WorkerTier {
 }
 
 export const WORKER_TIERS: WorkerTier[] = [
-  { harvests: 0,      species: 0,  golden: 0 },   // Worker 1: free
-  { harvests: 500,    species: 20, golden: 3 },    // Worker 2
-  { harvests: 2000,   species: 50, golden: 15 },   // Worker 3
-  { harvests: 5000,   species: 75, golden: 40 },   // Worker 4
-  { harvests: 10000,  species: 90, golden: 80 },   // Worker 5
+  { harvests: 0, species: 0, golden: 0 },    // Worker 1: free
+  { harvests: 1, species: 1, golden: 1 },    // Worker 2
+  { harvests: 2, species: 2, golden: 2 },    // Worker 3
+  { harvests: 3, species: 3, golden: 3 },    // Worker 4
+  { harvests: 5, species: 5, golden: 5 },    // Worker 5
+  { harvests: 6, species: 6, golden: 6 },    // Worker 6
+  { harvests: 7, species: 7, golden: 7 },    // Worker 7
+  { harvests: 8, species: 8, golden: 8 },    // Worker 8
+  { harvests: 8, species: 8, golden: 8 },    // Worker 9
 ];
 
 export const MAX_WORKERS = WORKER_TIERS.length;
@@ -116,20 +120,20 @@ export interface SpeedTier {
 }
 
 export const SPEED_TIERS: SpeedTier[] = [
-  { harvests: 0,    pestsRemoved: 0,    intervalMin: 60000,  intervalMax: 90000 },  // Lv1: 60-90s
-  { harvests: 500,  pestsRemoved: 100,  intervalMin: 45000,  intervalMax: 60000 },  // Lv2: 45-60s
-  { harvests: 1500, pestsRemoved: 400,  intervalMin: 30000,  intervalMax: 45000 },  // Lv3: 30-45s
-  { harvests: 4000, pestsRemoved: 1000, intervalMin: 20000,  intervalMax: 30000 },  // Lv4: 20-30s
-  { harvests: 8000, pestsRemoved: 2000, intervalMin: 12000,  intervalMax: 20000 },  // Lv5: 12-20s
+  { harvests: 0, pestsRemoved: 0, intervalMin: 9000,  intervalMax: 11000 },  // Lv1: 9 -11s
+  { harvests: 1, pestsRemoved: 1, intervalMin: 7000,  intervalMax: 9000 },   // Lv2: 7 - 9s
+  { harvests: 2, pestsRemoved: 2, intervalMin: 5000,  intervalMax: 7000 },   // Lv3: 5 - 7s
+  { harvests: 3, pestsRemoved: 3, intervalMin: 3000,  intervalMax: 5000 },   // Lv4: 3 - 5s
+  { harvests: 4, pestsRemoved: 4, intervalMin: 1000,  intervalMax: 3000 },   // Lv5: 1 - 3s
 ];
 
 export const MAX_SPEED_LEVEL = SPEED_TIERS.length;
 
 export const STAGE_THRESHOLDS: Record<string, number> = {
-  empty: 5,
-  watering: 18,
-  sprout: 23,
-  tree: 38,
+  empty: 1,
+  watering: 2,
+  sprout: 3,
+  tree: 5,
   fruit: 0,
   fallow: 0,
   overworked: 0,
@@ -145,39 +149,46 @@ export const NEXT_STAGE: Record<string, FarmStage | null> = {
   overworked: null,
 };
 
-export const FALLOW_HARVEST_LIMIT = 3;
-export const FALLOW_WINDOW_MS = 10 * 60_000;
-export const FALLOW_DURATION_MS = 3 * 60_000;
+export const FALLOW_HARVEST_LIMIT = 999999;
+export const FALLOW_WINDOW_MS = 1_000;
+export const FALLOW_DURATION_MS = 1_000;
 
-export const OVERWORK_PRESS_LIMIT = 30;
-export const OVERWORK_WINDOW_MS = 5_000;
-export const OVERWORK_DURATION_MS = 20_000;
+export const OVERWORK_PRESS_LIMIT = 999999;
+export const OVERWORK_WINDOW_MS = 1_000;
+export const OVERWORK_DURATION_MS = 1_000;
 
 export const PEST_INTERVAL_MIN_MS = 40_000;    // 40 seconds
 export const PEST_INTERVAL_MAX_MS = 80_000;    // 80 seconds
 
 // Pest spawn speed multiplier per worker speed level (faster workers → more pests)
-export const PEST_SPEED_MULTIPLIER = [1.0, 0.85, 0.7, 0.55, 0.4];
+export const PEST_SPEED_MULTIPLIER = [1.0, 0.85, 0.65, 0.5, 0.3, 0.25, 0.05];
 export const PEST_MAX_CONCURRENT = 8;          // max pests on board at once
-export const PEST_EXPIRE_MS = 600_000;         // pests auto-disappear after 10 minutes
+export const PEST_EXPIRE_MS = 6 * 600_000;     // pests auto-disappear after 6 * 10 minutes
 
-export const GOLDEN_CHANCE = 0.01;
+export const GOLDEN_CHANCE = 0.1;
 
 export const DUCK_SPAWN_TIERS: { harvests: number; cap: number }[] = [
   { harvests: 0, cap: 0 },
-  { harvests: 3, cap: 1 },
-  { harvests: 500, cap: 2 },
-  { harvests: 1500, cap: 3 },
-  { harvests: 3000, cap: 4 },
-  { harvests: 6000, cap: 5 },
+  { harvests: 1, cap: 1 },
+  { harvests: 3, cap: 2 },
+  { harvests: 5, cap: 3 },
+  { harvests: 7, cap: 4 },
+  { harvests: 9, cap: 5 },
 ];
 
-export const DUCK_SPAWN_INTERVAL: [number, number] = [60_000, 90_000]; // ms
-export const DUCK_RESPAWN_DELAY: [number, number] = [120_000, 180_000]; // ms
+export const DUCK_SPAWN_INTERVAL: [number, number] = [60_000, 90_000];   // ms
+export const DUCK_RESPAWN_DELAY: [number, number]  = [120_000, 180_000]; // ms
 
 export const CAT_SPAWN_TIERS: { harvests: number; cap: number }[] = [
   { harvests: 0, cap: 0 },
-  { harvests: 5, cap: 1 },
+  { harvests: 1, cap: 1 },
+  { harvests: 2, cap: 2 },
+  { harvests: 3, cap: 3 },
+  { harvests: 5, cap: 5 },
+  { harvests: 6, cap: 6 },
+  { harvests: 7, cap: 7 },
+  { harvests: 8, cap: 8 },
+  { harvests: 9, cap: 9 },
 ];
 
 export const CAT_SPAWN_INTERVAL: [number, number] = [90_000, 120_000]; // ms
